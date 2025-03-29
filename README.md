@@ -1,3 +1,4 @@
+
 # Welcome to your Lovable project
 
 ## Project info
@@ -36,19 +37,16 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Deploy to GitHub Pages
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+This project is set up to deploy to GitHub Pages. To deploy:
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Build the project: `npm run build`
+2. The build output will be in the `docs` folder
+3. Commit and push all changes including the `docs` folder to your GitHub repository
+4. Go to your repository settings on GitHub
+5. Under "Pages", select the branch containing your code and set the folder to `/docs`
+6. Your site will be published at `https://<username>.github.io/<repository-name>/`
 
 ## What technologies are used for this project?
 
@@ -64,6 +62,10 @@ This project is built with .
 
 Simply open [Lovable](https://lovable.dev/projects/1506f065-d1e0-49a4-802f-c8fb4890a772) and click on Share -> Publish.
 
+You can also deploy to GitHub Pages as described above.
+
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+When using GitHub Pages, you can also set up a custom domain in your repository settings.
