@@ -9,6 +9,8 @@ export default defineConfig(({ mode }) => ({
   base: "./", // Add this for GitHub Pages compatibility
   build: {
     outDir: "docs", // Set output directory to 'docs'
+    emptyOutDir: true, // Clear the output directory before building
+    copyPublicDir: true, // Copy public directory to outDir
   },
   server: {
     host: "::",
