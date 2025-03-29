@@ -34,7 +34,7 @@ const Hopper: React.FC<HopperProps> = ({
     <div 
       className={`absolute transition-all duration-500 ease-bounce`}
       style={{ 
-        left: `${(position / 24) * 100}%`, 
+        left: `${position}%`, // This will be adjusted by the parent component
         top: "-15px",
         transform: "translateX(-50%)" 
       }}

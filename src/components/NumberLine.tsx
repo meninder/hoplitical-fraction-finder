@@ -32,7 +32,9 @@ const NumberLine: React.FC<NumberLineProps> = ({
 
   // Create tick marks for the number line
   const tickMarks = [];
-  for (let i = 0; i <= maxValue; i += 4) {
+  const tickInterval = Math.max(2, Math.floor(maxValue / 12)); // Adjust tick interval dynamically
+  
+  for (let i = 0; i <= maxValue; i += tickInterval) {
     const isMultiple = multiples.includes(i);
     const isLcd = lcd === i;
     

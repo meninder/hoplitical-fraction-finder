@@ -8,10 +8,19 @@ import { generateProblem } from "@/utils/problemGenerator";
 
 const Index = () => {
   const [problem, setProblem] = useState(generateProblem());
-  const [positions, setPositions] = useState([0, 0]);
+  const [positions, setPositions] = useState<[number, number]>([0, 0]);
   const [multiples, setMultiples] = useState<[number[], number[]]>([[], []]);
   const [lcd, setLcd] = useState<number | null>(null);
-  const [maxValue, setMaxValue] = useState(24);
+  
+  // Calculate initial max value based on denominators
+  const calculateMaxValue = (denom1: number, denom2: number) => {
+    // Start with 3 times the larger denominator or at least 24
+    return Math.max(3 * Math.max(denom1, denom2), 24);
+  };
+  
+  const [maxValue, setMaxValue] = useState(
+    calculateMaxValue(problem.denominators[0], problem.denominators[1])
+  );
 
   const handleHop = (hopperIndex: 0 | 1) => {
     if (lcd !== null) return; // Stop hopping if LCD is found
@@ -20,7 +29,7 @@ const Index = () => {
     const newPosition = positions[hopperIndex] + denominator;
     
     // Update the position and multiples for this hopper
-    const newPositions = [...positions];
+    const newPositions = [...positions] as [number, number];
     newPositions[hopperIndex] = newPosition;
     setPositions(newPositions);
 
@@ -30,7 +39,7 @@ const Index = () => {
 
     // Dynamically extend the number line if needed
     if (newPosition > maxValue - 6) {
-      setMaxValue(maxValue + 12);
+      setMaxValue(maxValue + Math.max(denominator * 2, 12));
     }
     
     // Check if we found the LCD (common multiple)
@@ -43,12 +52,41 @@ const Index = () => {
     }
   };
 
+  const handleBack = (hopperIndex: 0 | 1) => {
+    if (lcd !== null || positions[hopperIndex] === 0) return;
+
+    const denominator = problem.denominators[hopperIndex];
+    const newPosition = positions[hopperIndex] - denominator;
+    
+    if (newPosition < 0) return;
+    
+    // Update the position and multiples for this hopper
+    const newPositions = [...positions] as [number, number];
+    newPositions[hopperIndex] = newPosition;
+    setPositions(newPositions);
+
+    const newMultiples = [...multiples] as [number[], number[]];
+    // Remove the last multiple if it exists
+    if (newMultiples[hopperIndex].includes(positions[hopperIndex])) {
+      newMultiples[hopperIndex] = newMultiples[hopperIndex].filter(
+        m => m !== positions[hopperIndex]
+      );
+      setMultiples(newMultiples);
+    }
+  };
+
   const handleNewProblem = () => {
-    setProblem(generateProblem());
+    const newProblem = generateProblem();
+    setProblem(newProblem);
     setPositions([0, 0]);
     setMultiples([[], []]);
     setLcd(null);
-    setMaxValue(24);
+    setMaxValue(calculateMaxValue(newProblem.denominators[0], newProblem.denominators[1]));
+  };
+
+  // Calculate hopper position percentages based on maxValue
+  const getHopperPositionPercent = (position: number) => {
+    return (position / maxValue) * 100;
   };
 
   return (
@@ -64,16 +102,18 @@ const Index = () => {
         <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6">
           <ControlPanel 
             problem={problem} 
-            onHop={handleHop} 
+            onHop={handleHop}
+            onBack={handleBack}
             onNewProblem={handleNewProblem} 
-            lcd={lcd} 
+            lcd={lcd}
+            positions={positions}
           />
 
           <div className="mt-8 space-y-8">
             <div className="relative">
               <Hopper
                 hopperIndex={0}
-                position={positions[0]}
+                position={getHopperPositionPercent(positions[0])}
                 color="purple"
                 denominator={problem.denominators[0]}
               />
@@ -88,7 +128,7 @@ const Index = () => {
             <div className="relative">
               <Hopper
                 hopperIndex={1}
-                position={positions[1]}
+                position={getHopperPositionPercent(positions[1])}
                 color="blue"
                 denominator={problem.denominators[1]}
               />
