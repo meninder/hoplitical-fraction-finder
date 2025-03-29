@@ -32,9 +32,9 @@ const NumberLine: React.FC<NumberLineProps> = ({
 
   // Create tick marks for the number line
   const tickMarks = [];
-  const tickInterval = Math.max(2, Math.floor(maxValue / 12)); // Adjust tick interval dynamically
   
-  for (let i = 0; i <= maxValue; i += tickInterval) {
+  // Instead of using a fixed interval, we'll show all integer positions
+  for (let i = 0; i <= maxValue; i++) {
     const isMultiple = multiples.includes(i);
     const isLcd = lcd === i;
     
@@ -44,8 +44,13 @@ const NumberLine: React.FC<NumberLineProps> = ({
         className="flex flex-col items-center"
         style={{ position: 'absolute', left: `${(i / maxValue) * 100}%` }}
       >
-        <div className="h-4 w-0.5 bg-gray-300"></div>
-        <span className="text-xs text-gray-500 mt-1">{i}</span>
+        {/* Only show tick marks for integer positions */}
+        {i % 1 === 0 && (
+          <>
+            <div className="h-4 w-0.5 bg-gray-300"></div>
+            <span className="text-xs text-gray-500 mt-1">{i}</span>
+          </>
+        )}
         
         {isMultiple && (
           <div 
