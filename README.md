@@ -1,71 +1,86 @@
+# Multiples Hopper
 
-# Welcome to your Lovable project
+An interactive educational tool for finding the Least Common Denominator (LCD) of two fractions using visual number lines and hopping mechanics.
 
-## Project info
+## Features
 
-**URL**: https://lovable.dev/projects/1506f065-d1e0-49a4-802f-c8fb4890a772
+- Interactive number lines with animated hoppers
+- Visual representation of multiples
+- Dynamic number line extension
+- Instant feedback when LCD is found
+- Responsive design for all screen sizes
+- Beautiful UI with Tailwind CSS and shadcn-ui components
 
-## How can I edit this code?
+## Getting Started
 
-There are several ways of editing your application.
+### Prerequisites
 
-**Use Lovable**
+- Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1506f065-d1e0-49a4-802f-c8fb4890a772) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/yourusername/hoplitical-fraction-finder.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd hoplitical-fraction-finder
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-## Deploy to GitHub Pages
+The application will be available at `http://localhost:5173`
 
-This project is set up to deploy to GitHub Pages. To deploy:
+## How to Use
 
-1. Build the project: `npm run build`
+1. The app displays two number lines, each with a colored hopper
+2. Click the "Hop" buttons to move the hoppers forward by their respective denominators
+3. Click the "Back" buttons to move the hoppers backward
+4. The multiples are marked on each number line
+5. When the hoppers meet at a common multiple, the LCD is found
+6. Use the "New Problem" button to generate a new fraction problem
+
+## Technologies Used
+
+- Vite - Next Generation Frontend Tooling
+- TypeScript - JavaScript with syntax for types
+- React - A JavaScript library for building user interfaces
+- shadcn-ui - Beautifully designed components
+- Tailwind CSS - A utility-first CSS framework
+
+## Deployment
+
+### GitHub Pages
+
+This project is configured for GitHub Pages deployment:
+
+1. Build the project:
+   ```sh
+   npm run build
+   ```
+
 2. The build output will be in the `docs` folder
+
 3. Commit and push all changes including the `docs` folder to your GitHub repository
-4. Go to your repository settings on GitHub
-5. Under "Pages", select the branch containing your code and set the folder to `/docs`
-6. Your site will be published at `https://<username>.github.io/<repository-name>/`
 
-## What technologies are used for this project?
+4. Go to your repository settings on GitHub:
+   - Under "Pages", select the branch containing your code
+   - Set the folder to `/docs`
 
-This project is built with .
+5. Your site will be published at `https://<username>.github.io/hoplitical-fraction-finder/`
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Custom Domain
 
-## How can I deploy this project?
+You can set up a custom domain in your GitHub repository settings or use services like Netlify for deployment.
 
-Simply open [Lovable](https://lovable.dev/projects/1506f065-d1e0-49a4-802f-c8fb4890a772) and click on Share -> Publish.
+## Contributing
 
-You can also deploy to GitHub Pages as described above.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## I want to use a custom domain - is that possible?
+## License
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
-
-When using GitHub Pages, you can also set up a custom domain in your repository settings.
+This project is licensed under the MIT License - see the LICENSE file for details.
