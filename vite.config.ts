@@ -11,12 +11,6 @@ export default defineConfig(({ mode }) => ({
     outDir: "docs", // Set output directory to 'docs'
     emptyOutDir: true, // Clear the output directory before building
     copyPublicDir: true, // Copy public directory to outDir
-    assetsDir: "assets", // Specify assets directory
-    rollupOptions: {
-      output: {
-        assetFileNames: "assets/[name]-[hash][extname]",
-      },
-    },
   },
   server: {
     host: "::",
