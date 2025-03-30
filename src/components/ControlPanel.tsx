@@ -1,78 +1,59 @@
-
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, RefreshCw } from "lucide-react";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { RefreshCw } from 'lucide-react';
+import HopperButton from './HopperButton';
+import { COLORS, LAYOUT, TYPOGRAPHY } from '@/constants/ui';
+import { Problem } from '@/types';
+import { HopperIndex } from '@/types';
 
 interface ControlPanelProps {
-  problem: {
-    fractions: [string, string];
-    denominators: [number, number];
-  };
-  onHop: (hopperIndex: 0 | 1) => void;
-  onBack: (hopperIndex: 0 | 1) => void;
+  problem: Problem;
+  onHop: (hopperIndex: HopperIndex) => void;
+  onBack: (hopperIndex: HopperIndex) => void;
   onNewProblem: () => void;
   lcd: number | null;
   positions: [number, number];
 }
 
-const ControlPanel: React.FC<ControlPanelProps> = ({ 
-  problem, 
-  onHop, 
+const ControlPanel: React.FC<ControlPanelProps> = ({
+  problem,
+  onHop,
   onBack,
   onNewProblem,
   lcd,
   positions
 }) => {
+  const renderHopperControl = (index: HopperIndex, colorScheme: 'PURPLE' | 'BLUE') => (
+    <div className={`${LAYOUT.FLEX.COL_CENTER} space-y-4 ${LAYOUT.SPACING.PADDING} ${COLORS[colorScheme].BG} rounded-lg`}>
+      <div className={`${TYPOGRAPHY.FRACTION} ${COLORS[colorScheme].TEXT}`}>
+        {problem.fractions[index]}
+      </div>
+      <div className={LAYOUT.FLEX.GAP}>
+        <HopperButton
+          direction="back"
+          colorScheme={colorScheme}
+          onClick={() => onBack(index)}
+          disabled={lcd !== null || positions[index] === 0}
+        />
+        <HopperButton
+          direction="forward"
+          colorScheme={colorScheme}
+          onClick={() => onHop(index)}
+          disabled={lcd !== null}
+        />
+      </div>
+    </div>
+  );
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="flex flex-col items-center space-y-4 p-4 bg-purple-50 rounded-lg">
-        <div className="text-2xl font-bold text-purple-700">
-          {problem.fractions[0]}
-        </div>
-        <div className="flex gap-2">
-          <Button 
-            onClick={() => onBack(0)} 
-            className="bg-purple-600 hover:bg-purple-700"
-            disabled={lcd !== null || positions[0] === 0}
-          >
-            <ArrowLeft className="mr-2" size={16} /> Back
-          </Button>
-          <Button 
-            onClick={() => onHop(0)} 
-            className="bg-purple-600 hover:bg-purple-700"
-            disabled={lcd !== null}
-          >
-            Hop <ArrowRight className="ml-2" size={16} />
-          </Button>
-        </div>
-      </div>
+    <div className={`${LAYOUT.GRID.CONTAINER} ${LAYOUT.SPACING.GAP}`}>
+      {renderHopperControl(HopperIndex.First, 'PURPLE')}
+      {renderHopperControl(HopperIndex.Second, 'BLUE')}
 
-      <div className="flex flex-col items-center space-y-4 p-4 bg-blue-50 rounded-lg">
-        <div className="text-2xl font-bold text-blue-700">
-          {problem.fractions[1]}
-        </div>
-        <div className="flex gap-2">
-          <Button 
-            onClick={() => onBack(1)} 
-            className="bg-blue-600 hover:bg-blue-700"
-            disabled={lcd !== null || positions[1] === 0}
-          >
-            <ArrowLeft className="mr-2" size={16} /> Back
-          </Button>
-          <Button 
-            onClick={() => onHop(1)} 
-            className="bg-blue-600 hover:bg-blue-700"
-            disabled={lcd !== null}
-          >
-            Hop <ArrowRight className="ml-2" size={16} />
-          </Button>
-        </div>
-      </div>
-
-      <div className="md:col-span-2 flex justify-center mt-4">
-        <Button 
+      <div className={`md:col-span-2 ${LAYOUT.FLEX.CENTER} ${LAYOUT.SPACING.MARGIN.TOP}`}>
+        <Button
           onClick={onNewProblem}
-          variant="outline" 
+          variant="outline"
           className="border-gray-300"
         >
           <RefreshCw className="mr-2" size={16} />

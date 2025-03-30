@@ -1,74 +1,83 @@
-
-import React from "react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { COLORS, ColorScheme, LAYOUT } from '@/constants/ui';
 
 interface NumberLineProps {
   maxValue: number;
   multiples: number[];
-  color: "purple" | "blue";
+  color: Lowercase<ColorScheme>;
   lcd: number | null;
 }
 
-const NumberLine: React.FC<NumberLineProps> = ({ 
-  maxValue, 
-  multiples, 
+interface TickMarkProps {
+  position: number;
+  maxValue: number;
+  isMultiple: boolean;
+  isLcd: boolean;
+  color: Lowercase<ColorScheme>;
+}
+
+const TickMark: React.FC<TickMarkProps> = ({
+  position,
+  maxValue,
+  isMultiple,
+  isLcd,
+  color
+}) => {
+  const colorKey = color.toUpperCase() as ColorScheme;
+  const leftPosition = `${(position / maxValue) * 100}%`;
+
+  return (
+    <div
+      className="flex flex-col items-center"
+      style={{ position: 'absolute', left: leftPosition }}
+    >
+      {/* Integer position tick mark */}
+      {position % 1 === 0 && (
+        <>
+          <div className="h-4 w-0.5 bg-gray-300" />
+          <span className="text-xs text-gray-500 mt-1">{position}</span>
+        </>
+      )}
+      
+      {/* Multiple marker */}
+      {isMultiple && (
+        <div
+          className={cn(
+            'w-4 h-4 rounded-full absolute -top-5',
+            COLORS[colorKey].LINE.MARKER,
+            isLcd && 'animate-pulse w-5 h-5 border-2 border-yellow-400'
+          )}
+        />
+      )}
+    </div>
+  );
+};
+
+const NumberLine: React.FC<NumberLineProps> = ({
+  maxValue,
+  multiples,
   color,
   lcd
 }) => {
-  const colorClasses = {
-    purple: {
-      line: "bg-purple-200",
-      marker: "bg-purple-500",
-      highlight: "bg-purple-300",
-      text: "text-purple-700"
-    },
-    blue: {
-      line: "bg-blue-200",
-      marker: "bg-blue-500", 
-      highlight: "bg-blue-300",
-      text: "text-blue-700"
-    }
-  };
-
-  // Create tick marks for the number line
-  const tickMarks = [];
-  
-  // Instead of using a fixed interval, we'll show all integer positions
-  for (let i = 0; i <= maxValue; i++) {
-    const isMultiple = multiples.includes(i);
-    const isLcd = lcd === i;
-    
-    tickMarks.push(
-      <div 
-        key={i} 
-        className="flex flex-col items-center"
-        style={{ position: 'absolute', left: `${(i / maxValue) * 100}%` }}
-      >
-        {/* Only show tick marks for integer positions */}
-        {i % 1 === 0 && (
-          <>
-            <div className="h-4 w-0.5 bg-gray-300"></div>
-            <span className="text-xs text-gray-500 mt-1">{i}</span>
-          </>
-        )}
-        
-        {isMultiple && (
-          <div 
-            className={cn(
-              "w-4 h-4 rounded-full absolute -top-5", 
-              colorClasses[color].marker,
-              isLcd && "animate-pulse w-5 h-5 border-2 border-yellow-400"
-            )}
-          ></div>
-        )}
-      </div>
-    );
-  }
+  const colorKey = color.toUpperCase() as ColorScheme;
 
   return (
-    <div className="mb-8 pt-8 relative">
-      <div className={`h-2 rounded-full w-full ${colorClasses[color].line} relative`}>
-        {tickMarks}
+    <div className={`${LAYOUT.SPACING.MARGIN.BOTTOM} pt-8 relative`}>
+      <div className={cn(
+        'h-2 rounded-full w-full relative',
+        COLORS[colorKey].LINE.BASE
+      )}>
+        {Array.from({ length: maxValue + 1 }, (_, i) => (
+          <TickMark
+            key={i}
+            position={i}
+            maxValue={maxValue}
+            isMultiple={multiples.includes(i)}
+            isLcd={lcd === i}
+            color={color}
+          />
+        ))}
       </div>
     </div>
   );
