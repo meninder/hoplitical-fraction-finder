@@ -22,6 +22,13 @@ const Index = () => {
     calculateMaxValue(problem.denominators[0], problem.denominators[1])
   );
 
+  // Move both hoppers to LCD when it's found
+  useEffect(() => {
+    if (lcd !== null) {
+      setPositions([lcd, lcd]);
+    }
+  }, [lcd]);
+
   const handleHop = (hopperIndex: 0 | 1) => {
     if (lcd !== null) return; // Stop hopping if LCD is found
 
